@@ -19,9 +19,9 @@
         <release.version>11</release.version>
         <micronaut.version>2.5.5</micronaut.version>
         <exec.mainClass>com.danielprinz.udemy.Application</exec.mainClass>
-        <micronaut.runtime>netty</micronaut.runtime>
+        <assertj-core.version>3.16.1</assertj-core.version>
         <lombok.version>1.18.16</lombok.version>
-        <assertj-core.version>3.19.0</assertj-core.version>
+        <micronaut.runtime>netty</micronaut.runtime>
     </properties>
 
     <repositories>
@@ -79,8 +79,21 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>io.micronaut.security</groupId>
+            <artifactId>micronaut-security-jwt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.micronaut.security</groupId>
+            <artifactId>micronaut-security-annotations</artifactId>
+        </dependency>
+        <dependency>
             <groupId>javax.annotation</groupId>
             <artifactId>javax.annotation-api</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -102,6 +115,34 @@
                 <groupId>io.micronaut.build</groupId>
                 <artifactId>micronaut-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+            </plugin>
+            <!--            <plugin>-->
+            <!--                <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                <artifactId>maven-surfire-plugin</artifactId>-->
+            <!--                <version>${maven-surefire-plugin.version}</version>-->
+            <!--                <configuration>-->
+            <!--                    <detail>trrue</detail>-->
+            <!--                    <includes>-->
+            <!--                        <include>%regex[.*]</include>-->
+            <!--                    </includes>-->
+            <!--                </configuration>-->
+            <!--            </plugin>-->
+            <!--            <plugin>-->
+            <!--                <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                <artifactId>maven-filesafe-plugin</artifactId>-->
+            <!--                <version>${maven-failsafe-plugin.version}</version>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <goals>-->
+            <!--                            <goal>integration-test</goal>-->
+            <!--                            <goal>verify</goal>-->
+            <!--                        </goals>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -116,8 +157,28 @@
                             <artifactId>lombok</artifactId>
                             <version>${lombok.version}</version>
                         </path>
+                        <path>
+                            <groupId>io.micronaut</groupId>
+                            <artifactId>micronaut-inject-java</artifactId>
+                            <version>${micronaut.version}</version>
+                        </path>
+                        <path>
+                            <groupId>io.micronaut</groupId>
+                            <artifactId>micronaut-validation</artifactId>
+                            <version>${micronaut.version}</version>
+                        </path>
+                        <dependency>
+                            <groupId>io.micronaut.openapi</groupId>
+                            <artifactId>micronaut-openapi</artifactId>
+                            <version>2.5.0</version>
+                        </dependency>
                     </annotationProcessorPaths>
+                    <fork>true</fork>
                     <compilerArgs>
+                        <arg>-J-Dmicronaut.openapi.property.naming.strategy=SNAKE_CASE</arg>
+                        <arg>
+                            -J-Dmicronaut.openapi.views.spec=redoc.enabled=true,rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop
+                        </arg>
                         <arg>-Amicronaut.processing.group=com.danielprinz.udemy</arg>
                         <arg>-Amicronaut.processing.module=mn-stock-broker</arg>
                     </compilerArgs>
