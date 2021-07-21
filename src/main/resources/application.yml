@@ -48,3 +48,31 @@ jackson:
   generator:
     writeNumbersAsStrings: false
     writeBigDecimalAsPlain: false
+
+flyway:
+  datasources:
+    default:
+      enabled: true
+      clean-schema: false
+      url: ${PG_JDBC_URL:`jdbc:postgresql://127.0.0.1:15432/mn_stock_broker`}
+      user: ${PG_USERNAME:postgres}
+      password: ${PG_PASSWORD} # secret
+      schemas: mn
+      default-schema: mn
+
+datasources:
+  default:
+    url: ${PG_JDBC_URL:`jdbc:postgresql://127.0.0.1:15432/mn_stock_broker`}
+    username: ${PG_USERNAME:postgres}
+    password: ${PG_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    schema-generate: NONE
+    dialect: POSTGRES
+# micronaut-data-jpa
+jpa:
+  default:
+    packages-to-scan:
+      - "com.danielprinz.udemy.broker.persistence"
+    properties:
+      hibernate:
+        show_sql: false
